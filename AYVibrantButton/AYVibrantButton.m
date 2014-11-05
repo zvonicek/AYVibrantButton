@@ -102,36 +102,56 @@
 	return nil;
 }
 
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        [self commonInitWithStyle:AYVibrantButtonStyleFill];
+    }
+    return self;
+}
+
 - (instancetype)initWithFrame:(CGRect)frame style:(AYVibrantButtonStyle)style {
-	if (self = [super initWithFrame:frame]) {
-		
-		self.style = style;
-		self.opaque = NO;
-		self.userInteractionEnabled = YES;
-		
-		// default values
-		_animated = YES;
-		_animationDuration = kAYVibrantButtonDefaultAnimationDuration;
-		_cornerRadius = kAYVibrantButtonDefaultCornerRadius;
-		_roundingCorners = kAYVibrantButtonDefaultRoundingCorners;
-		_borderWidth = kAYVibrantButtonDefaultBorderWidth;
-		_translucencyAlphaNormal = kAYVibrantButtonDefaultTranslucencyAlphaNormal;
-		_translucencyAlphaHighlighted = kAYVibrantButtonDefaultTranslucencyAlphaHighlighted;
-		_alpha = kAYVibrantButtonDefaultAlpha;
-		_activeTouch = NO;
-		
-		// create overlay views
-		[self createOverlays];
-		
+    if (self = [super initWithFrame:frame]) {
+        [self commonInitWithStyle:style];
+    }
+    return self;
+}
+
+- (void)commonInitWithStyle:(AYVibrantButtonStyle)style {
+    self.style = style;
+    self.opaque = NO;
+    self.userInteractionEnabled = YES;
+    
+    // default values
+    _animated = YES;
+    _animationDuration = kAYVibrantButtonDefaultAnimationDuration;
+    _cornerRadius = kAYVibrantButtonDefaultCornerRadius;
+    _roundingCorners = kAYVibrantButtonDefaultRoundingCorners;
+    _borderWidth = kAYVibrantButtonDefaultBorderWidth;
+    _translucencyAlphaNormal = kAYVibrantButtonDefaultTranslucencyAlphaNormal;
+    _translucencyAlphaHighlighted = kAYVibrantButtonDefaultTranslucencyAlphaHighlighted;
+    _alpha = kAYVibrantButtonDefaultAlpha;
+    _activeTouch = NO;
+    
+    // create overlay views
+    [self createOverlays];
+    
 #ifdef __IPHONE_8_0
-		// add the default vibrancy effect
-		self.vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
+    // add the default vibrancy effect
+    self.vibrancyEffect = [UIVibrancyEffect effectForBlurEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
 #endif
-		
-		[self addTarget:self action:@selector(touchDown) forControlEvents:UIControlEventTouchDown | UIControlEventTouchDragInside];
-		[self addTarget:self action:@selector(touchUp) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside | UIControlEventTouchDragOutside | UIControlEventTouchCancel];
-	}
-	return self;
+    
+    [self addTarget:self action:@selector(touchDown) forControlEvents:UIControlEventTouchDown | UIControlEventTouchDragInside];
+    [self addTarget:self action:@selector(touchUp) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside | UIControlEventTouchDragOutside | UIControlEventTouchCancel];
+}
+
+-(void)awakeFromNib
+{
+    [super awakeFromNib];
+    
+    self.text = self.titleLabel.text;
+    self.font = self.titleLabel.font;
 }
 
 - (void)layoutSubviews {
