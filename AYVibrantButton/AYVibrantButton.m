@@ -420,6 +420,7 @@
 			CGContextSetBlendMode(context, kCGBlendModeClear);
 		}
 		
+        [self _updateTextHeight];
 		[self.text drawInRect:CGRectMake(0.0, (size.height - self.textHeight) / 2, size.width, self.textHeight) withAttributes:@{ NSFontAttributeName:self.font, NSForegroundColorAttributeName:self.backgroundColor, NSParagraphStyleAttributeName:style }];
 	}
 }
@@ -483,7 +484,7 @@
 #pragma mark - Private Methods
 
 - (void)_updateTextHeight {
-	CGRect bounds = [self.text boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{ NSFontAttributeName:self.font } context:nil];
+	CGRect bounds = [self.text boundingRectWithSize:CGSizeMake(self.bounds.size.width, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{ NSFontAttributeName:self.font } context:nil];
 	self.textHeight = bounds.size.height;
 }
 
