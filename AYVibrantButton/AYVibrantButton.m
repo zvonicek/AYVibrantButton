@@ -412,7 +412,7 @@
 	if (self.text != nil) {
 		
 		NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-		style.lineBreakMode = NSLineBreakByTruncatingTail;
+		style.lineBreakMode = NSLineBreakByWordWrapping;
 		style.alignment = NSTextAlignmentCenter;
 		
 		if (self.style == AYVibrantButtonOverlayStyleInvert) {
